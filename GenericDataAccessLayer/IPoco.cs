@@ -9,5 +9,6 @@ namespace GenericDataAccessLayer
         Dictionary<string, dynamic> Fields { get; set; }
         void SetItems(List<dynamic> rawItems);
         string TableName { get; }
+        string DbType { get; }
     }
 }

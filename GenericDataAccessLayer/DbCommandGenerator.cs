@@ -9,16 +9,14 @@ namespace GenericDataAccessLayer
     /// <summary>
     /// Generate SQL commands for a specific POCO
     /// </summary>
-    class SqlCommandGenerator
+    class DbCommandGenerator
     {
         
-        public static string ConnectionString
-        {
-            get
-            {
-                return @"Data Source = ALI\HUMBERBRIDGING; Initial Catalog = JOB_PORTAL_DB; Integrated Security = True";
-            }
-        }
+        public static string OleDbConnectionString
+        {get{return @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\test.accdb; Persist Security Info=False;";}}
+
+        public static string SqlConnectionString
+        { get { return @"Data Source = ALI\HUMBERBRIDGING; Initial Catalog = JOB_PORTAL_DB; Integrated Security = True"; } }
 
         /// <summary>
         /// Generate (SELECT *) Statement for an specefic POCO
@@ -80,7 +78,7 @@ namespace GenericDataAccessLayer
                 i++;
             }
             updateStr = updateStr.Remove(updateStr.Length - 1);
-            return $@"UPDATE {poco.TableName} Set ({updateStr}) WHERE Id = @Id";
+            return $@"UPDATE {poco.TableName} Set {updateStr} WHERE Id = @Id";
         }
       
     }
