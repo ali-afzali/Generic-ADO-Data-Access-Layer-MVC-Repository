@@ -14,17 +14,14 @@ namespace GenericDataAccessLayer
     class GenericDataAccessClass<T> where T : IPoco, new()
     {
 
-        public string generatedSqlCommand //for test
-        {
-            get { return _executedCommand; }
-        }
+        public string generatedSqlCommand => _executedCommand;//for test
         private string _executedCommand = ""; // for test
-        //the default value must be "" to avaoid eror in (new SqlConnection(_sqlConnStr)) when teh DB is Oledb 
-        private readonly string _sqlConnStr = "";
-        private readonly string _oledbConnStr = "";
         private Dictionary<string, object> fields;
         private T CtorPoco;
-
+        //the default value must be "" to avaoid eror in (new SqlConnection(_sqlConnStr)) when teh DB is Oledb:
+        private readonly string _sqlConnStr = "";
+        private readonly string _oledbConnStr = "";
+      
         //private dynamic connection
 
         public GenericDataAccessClass(T poco)
@@ -39,7 +36,6 @@ namespace GenericDataAccessLayer
 
         public void Add(params T[] items)
         {
-
             dynamic conn = new SqlConnection(_sqlConnStr);
             dynamic cmd = new SqlCommand();
             if (CtorPoco.DbType == "OleDB")
@@ -48,10 +44,8 @@ namespace GenericDataAccessLayer
                 cmd = new OleDbCommand();
             }
 
-
             conn.Open();
             string addStr = DbCommandGenerator.AddStr(CtorPoco);
-
 
             foreach (T poco in items)
             {
@@ -67,12 +61,6 @@ namespace GenericDataAccessLayer
                 cmd.ExecuteNonQuery();
                 conn.Close();
             }
-        }
-
-
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
-        {
-            throw new NotImplementedException();
         }
 
         public IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
@@ -143,7 +131,7 @@ namespace GenericDataAccessLayer
                     cmd.ExecuteNonQuery();
                     _executedCommand = cmd.CommandText; //for test
                 }
-
+                conn.Close();
             }
         }
 
@@ -171,10 +159,9 @@ namespace GenericDataAccessLayer
                 }
 
                 cmd.ExecuteNonQuery();
+                conn.Close();
                 _executedCommand = cmd.CommandText; //for test
             }
-
         }
-
     }
 }

@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenericDataAccessLayer
 {
-    
+
     public class ApplicantResumePoco : IPoco
     {
-       
         private Dictionary<string, dynamic> _fields = new Dictionary<string, dynamic>();
         public ApplicantResumePoco()
         {
@@ -17,53 +16,47 @@ namespace GenericDataAccessLayer
             _fields.Add("Last_Updated", null);
         }
 
-        public string DbType
-        {
-            get { return @"SQL"; }
-        }
+        public string DbType => @"SQL";
 
-        public string TableName
-        {
-             get {return @"[dbo].[Applicant_Resumes]";}
-        }
-      
-      public Dictionary<string, dynamic> Fields
-        {
-            get { return _fields; }
-            set { _fields = value; }
-        }
+        public string TableName => @"[dbo].[Applicant_Resumes]";
 
-        [Key]public Guid Id
+        public Dictionary<string, dynamic> Fields
         {
-            get { return (Guid)_fields["Id"];}
-            set { _fields["Id"] = value;}
+            get => _fields;
+            set => _fields = value;
+        }
+        
+        public Guid Id
+        {
+            get => (Guid)_fields["Id"];
+            set => _fields["Id"] = value;
         }
 
         public Guid Applicant
         {
-            get { return (Guid)_fields["Applicant"]; }
-            set { _fields ["Applicant"]= value; }
+            get => (Guid)_fields["Applicant"];
+            set => _fields["Applicant"] = value;
         }
         public string Resume
         {
-            get { return (string)_fields["Resume"]; }
-            set { _fields ["Resume"]= value; }
+            get => (string)_fields["Resume"];
+            set => _fields["Resume"] = value;
         }
         public DateTime? LastUpdated
         {
-            get { return (DateTime?)_fields["Last_Updated"]; }
-            set { _fields ["Last_Updated"]= value; }
+            get => (DateTime?)_fields["Last_Updated"];
+            set => _fields["Last_Updated"] = value;
         }
 
-        public void SetItems (List<dynamic> rawItems)
+        public void SetItems(List<dynamic> rawItems)
         {
-            Id = (Guid) rawItems[0];
+            Id = (Guid)rawItems[0];
             Applicant = (Guid)rawItems[1];
-            Resume = (string) rawItems[2];
-            LastUpdated = (DateTime ?)rawItems[3];
+            Resume = (string)rawItems[2];
+            LastUpdated = (DateTime?)rawItems[3];
         }
 
-        
+
     }
 
 }
